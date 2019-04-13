@@ -1,8 +1,9 @@
 
+
 function setup() {
     createCanvas(400, 400)
-    frameRate(5)
-    createLoop(1)
+    frameRate(30)
+    createLoop(3)
 }
 function draw() {
     background(0)
