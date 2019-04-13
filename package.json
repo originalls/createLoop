@@ -4,8 +4,9 @@
   "description": "Simple and structured approach to creating animation loops, using looping noise and rendering GIF images.",
   "main": "test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open"
+    "test": "cd ./dist && live-server",
+    "start": "webpack-dev-server --open",
+    "build": "powershell ./build.ps1"
   },
   "repository": {
     "type": "git",

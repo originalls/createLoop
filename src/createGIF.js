@@ -8,43 +8,49 @@ function createGIF({
     render = true,
     open = false,
     download = false,
+    startLoop = 0,
+    endLoop = 1,
     options = {},
     canvas = document.getElementsByTagName('canvas')[0],
     loop
 }) {
 
-    console.log(`creating GIF with ${loop.frameTotal} frames`);
 
     const gifjs = new GIF(Object.assign({
         workerScript
     }, options));
 
-    loop.onPostDraw.addListener(addFrame)
-    loop.onLoop.addListener(startRendering)
-    loop.onPostDraw.addListener(addFrame)
-
     let isFinished = false
     let renderStartTime = undefined
-    // Object.assign(loop, {
-    //     renderStartTime: undefined,
-    //     // canvas
-    // })
 
-    //this is getting called twice
+    loop.onLoop.addListener(handleNewLoop)
+
+    function handleNewLoop() {
+        if (loop.elapsedLoops === startLoop)
+            startRecording()
+        else if (loop.elapsedLoops === endLoop)
+            startRendering()
+    }
+
+    //some reason this is getting called twice
     gifjs.on('finished', onFinishedRendering)
 
     //FUNCTIONS ---------------------------------------------------------------------
+    function startRecording() {
+        console.log(`creating GIF with ${loop.framesPerLoop * (endLoop - startLoop)} frames`);
+        loop.onPostRender.addListener(addFrame)
+    }
+
 
     function addFrame() {
-        // console.log(`adding frame ${loop.loopCount}`);
-        gifjs.addFrame(canvas, { copy: true, delay: loop.frameDelay })
+        // console.log(`adding frame ${loop.elapsedFrames}`);
+        gifjs.addFrame(canvas, { copy: true, delay: loop.frameDeltaTime })
     }
 
     function startRendering() {
-        // console.log(loop.loopCount);
-        if (loop.loopCount !== 1)
-            return
-        loop.onPostDraw.removeListener(addFrame)
+        // console.log(loop.onPostRender._listeners[0].toString())
+        loop.onPostRender.removeListener(addFrame)
+        loop.onLoop.removeListener(handleNewLoop)
         console.log('rendering GIF');
         renderStartTime = Date.now()
         gifjs.render()
@@ -59,8 +65,8 @@ function createGIF({
             `finished rendering GIF
                     render time: ${(renderTime / 1000).toFixed(1)} seconds
                     approx size: ${(blob.size / 1000).toFixed(0)} kb
-                    frame count: ${loop.frameTotal}
-                    frame delay: ${loop.frameDelay.toFixed(1)} ms
+                    frame count: ${loop.framesPerLoop}
+                    frame delay: ${loop.frameDeltaTime.toFixed(1)} ms
                     `);
         const imgUrl = URL.createObjectURL(blob)
         if (render)
@@ -71,7 +77,6 @@ function createGIF({
             downloadImage(imgUrl)
         // URL.revokeObjectURL(imgUrl)
     }
-
 }
 
 

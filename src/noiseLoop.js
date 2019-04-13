@@ -10,15 +10,14 @@ function noiseLoop({
 
     const instances = []
     let currentInstance
-    setNoiseSeed(seed)
+    noiseSeed(seed)
 
     Object.assign(loop, {
-        get frequency() { return frequency },
-        set frequency(val) { frequency = val },
+        noiseFrequency: (val) => frequency = val,
         noise,
+        noise1D,
         noise2D,
-        noise3D,
-        setNoiseSeed
+        noiseSeed
     })
 
     function noise() {
@@ -26,17 +25,17 @@ function noiseLoop({
         return currentInstance.simplex.noise2D(cart.x, cart.y)
     }
 
-    function noise2D(x) {
+    function noise1D(x) {
         const cart = polarToCartesian(loop.theta, frequency)
         return currentInstance.simplex.noise3D(cart.x, cart.y, x)
     }
 
-    function noise3D(x, y) {
+    function noise2D(x, y) {
         const cart = polarToCartesian(loop.theta, frequency)
         return currentInstance.simplex.noise4D(cart.x, cart.y, x, y)
     }
 
-    function setNoiseSeed(newSeed) {
+    function noiseSeed(newSeed) {
         currentInstance = instances.find(i => i.seed === newSeed)
         if (currentInstance === undefined) {
             currentInstance = {

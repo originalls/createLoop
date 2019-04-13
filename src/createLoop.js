@@ -8,18 +8,12 @@ module.exports = createLoop
 
 function createLoop({
     duration = 3,
-    frameRate = 10,
+    framesPerSecond = 10,
 } = {}) {
 
-    // const onPreDraw = event()
-    const onPostDraw = event()
-    const loop = {
-        // onPreDraw,
-        onPostDraw,
-        update: _ => onPostDraw.invoke()
-    }
+    const loop = {}
 
-    animationLoop({ frameRate, duration, loop });
+    animationLoop({ framesPerSecond, duration, loop });
     noiseLoop({ loop })
     createGIF({ loop })
 
