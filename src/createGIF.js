@@ -14,6 +14,7 @@ function createGIF({
     download = false,
     startLoop = 0,
     endLoop = 1,
+    fileName = "image.gif",
     options = {},
     canvas = document.getElementsByTagName('canvas')[0],
     loop
@@ -77,35 +78,35 @@ function createGIF({
                     `);
         const imgUrl = URL.createObjectURL(blob)
         if (render)
-            renderImage(imgUrl)
+            renderImage(imgUrl, fileName)
         if (open)
             window.open(imgUrl)
         if (download)
-            downloadImage(imgUrl)
+            downloadImage(imgUrl, fileName)
         // URL.revokeObjectURL(imgUrl)
     }
 }
 
 
-function renderImage(blobUrl) {
+function renderImage(blobUrl, fileName) {
     // return new Promise((resolve, reject) => {
     const a = document.createElement('a')
-    a.download = "image.gif"
+    a.download = fileName
     document.body.appendChild(a)
     const img = document.createElement('img')
     // img.addEventListener('load', resolve)
     img.src = blobUrl
     a.href = img.src
-    img.setAttribute('href', blobUrl)
-    img.setAttribute('download', "image.gif")
+    // img.setAttribute('href', blobUrl)
+    // img.setAttribute('download', "image.gif")
     a.appendChild(img)
 };
 
-function downloadImage(blobUrl) {
+function downloadImage(blobUrl, fileName) {
     const elt = document.createElement('a')
     elt.style.display = 'none'
     elt.href = blobUrl
-    elt.download = "image.gif"
+    elt.download = fileName
     document.body.appendChild(elt)
     elt.click()
     document.body.removeChild(elt)

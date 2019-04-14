@@ -86,15 +86,16 @@ This method in the global namespace will return a loop instance. It can receive 
 
 #### gif options
 
-| Name        | Default    | Description                                                                                                             |
-| ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `render`    | `true`     | create an image element and render the GIF to the webpage. Clicking on the image will begin downlaoding the GIF.        |
-| `open`      | `false`    | open the gif image in a new tab or window                                                                               |
-| `download`  | `false`    | download the gif automatically                                                                                          |
-| `startLoop` | `0`        | loop index to begin recording the GIF                                                                                   |
-| `endLoop`   | `1`        | loop index to end recording the GIF                                                                                     |
-| `canvas`    | `<canvas>` | The canvas to render. By default this is the first instance of a canvas on the webpage                                  |
-| `options`   | `{}`       | options to pass to gif.js encoder. see [gif.js documentation](https://github.com/jnordberg/gif.js#user-content-options) |
+| Name        | Default     | Description                                                                                                             |
+| ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `render`    | `true`      | create an image element and render the GIF to the webpage. Clicking on the image will begin downlaoding the GIF.        |
+| `open`      | `false`     | open the gif image in a new tab or window                                                                               |
+| `download`  | `false`     | download the gif automatically                                                                                          |
+| `fileName`  | `image.gif` | Name of the downloaded GIF file                                                                                         |
+| `startLoop` | `0`         | loop index to begin recording the GIF                                                                                   |
+| `endLoop`   | `1`         | loop index to end recording the GIF                                                                                     |
+| `canvas`    | `<canvas>`  | The canvas to render. By default this is the first instance of a canvas on the webpage                                  |
+| `options`   | `{}`        | options to pass to gif.js encoder. see [gif.js documentation](https://github.com/jnordberg/gif.js#user-content-options) |
 
 
 ### Loop instance
@@ -170,6 +171,8 @@ This library was developed using techniques described in The Coding Train Coding
 
 ### Patch Notes
 
+- 0.0.3 - 14/04/2019
+    - added `fileName` to gif options
 - 0.0.1 - 14/04/2019
     - added `start()` method, calling `requestAnimationFrame` internally
 - 0.0.0 - 14/04/2019
