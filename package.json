@@ -19,10 +19,9 @@
   "bugs": {
     "url": "https://github.com/piratesjustar/createLoop/issues"
   },
-  "homepage": "https://github.com/piratesjustar/createLoop/createLoop#readme",
+  "homepage": "https://github.com/piratesjustar/createLoop#readme",
   "dependencies": {
     "gif.js": "^0.2.0",
-    "lazypirate-cli": "^0.1.23",
     "simplex-noise": "^2.4.0"
   },
   "devDependencies": {
