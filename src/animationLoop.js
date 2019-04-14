@@ -29,6 +29,8 @@ function animationLoop({
         get frameDeltaTime() { return frameDeltaTime },
         elapsedFrames: -1,
         elapsedLoops: -1,
+        elapsedDeltaTime: -1,
+        lastFrameTime: -1,
         progress: undefined,
         theta: undefined
     })
@@ -42,6 +44,9 @@ function animationLoop({
             // console.log(`on loop ${loop.elapsedLoops}`);
             onLoop.invoke()
         }
+        const now = Date.now()
+        loop.elapsedDeltaTime = now - loop.lastFrameTime
+        loop.lastFrameTime = now
         // console.log(`on frame ${loop.elapsedFrames}, loop ${loop.elapsedLoops}`);
         loop.progress = loop.elapsedFrames / loop.framesPerLoop
         loop.theta = (loop.progress * Math.PI * 2)

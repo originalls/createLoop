@@ -8,14 +8,23 @@ module.exports = createLoop
 
 function createLoop({
     duration = 3,
-    framesPerSecond = 10,
+    framesPerSecond = 30,
+    noise = undefined,
+    gif = undefined,
 } = {}) {
 
     const loop = {}
 
     animationLoop({ framesPerSecond, duration, loop });
-    noiseLoop({ loop })
-    createGIF({ loop })
-
+    Object.assign({ loop }, noise)
+    noiseLoop(noise)
+    if (gif !== undefined && gif !== false) {
+        if (gif === true) {
+            createGIF({ loop })
+        } else {
+            const gifOptions = Object.assign({ loop }, gif)
+            createGIF(gifOptions)
+        }
+    }
     return loop
 }

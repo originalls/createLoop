@@ -1,4 +1,8 @@
 
+//This module does not add anything to the loop instance
+// it does attach itsself to loop events onLoop and onPostRender
+
+
 const GIF = require('gif.js');
 const workerScript = require('./gifWorkerScript');
 
@@ -14,7 +18,10 @@ function createGIF({
     canvas = document.getElementsByTagName('canvas')[0],
     loop
 }) {
-
+    if (canvas === undefined) {
+        console.error('GIF module: no canvas found');
+        return
+    }
 
     const gifjs = new GIF(Object.assign({
         workerScript

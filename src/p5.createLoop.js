@@ -1,7 +1,8 @@
 const createLoop = require('./createLoop');
 const event = require('./event');
-if (typeof p5 !== typeof undefined) attachCreateLoop()
 
+
+module.exports = attachCreateLoop
 function attachCreateLoop() {
     console.log('p5 detected, attaching createLoop');
     const onInit = event()
