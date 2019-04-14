@@ -1,0 +1,1 @@
+window.createLoop = require('./createLoop');
