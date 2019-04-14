@@ -5,19 +5,11 @@ window.addEventListener('load', _ => {
     const loop = createLoop({
         duration: 5,
         framesPerSecond: 30,
-        gif: {},
+        gif: true,
         canvas
     })
 
-    onFrame()
-
-    function onFrame() {
-        loop.preRender()
-        //use this to match the canvas render speed to the rendered GIF speed
-        if (loop.elapsedDeltaTime < loop.frameDeltaTime)
-            render()
-        requestAnimationFrame(onFrame)
-    }
+    loop.start(render)
 
     function render() {
         const hw = canvas.width / 2
@@ -28,6 +20,5 @@ window.addEventListener('load', _ => {
         ctx.fillStyle = grd
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         //post render must be called to add GIF frames
-        loop.postRender()
     }
 })

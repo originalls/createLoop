@@ -58,7 +58,7 @@ function createGIF({
         // console.log(loop.onPostRender._listeners[0].toString())
         loop.onPostRender.removeListener(addFrame)
         loop.onLoop.removeListener(handleNewLoop)
-        console.log('rendering GIF');
+        console.log(`rendering GIF`);
         renderStartTime = Date.now()
         gifjs.render()
     }

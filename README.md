@@ -20,7 +20,6 @@ Loop animations can easily be created and rendered as a GIF:
         canvas })
 ```
 
-
 ## Example
 
 ![vanilla simple example](examples/images/simple.gif)
@@ -36,34 +35,24 @@ window.addEventListener('load', _ => {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     const ctx = canvas.getContext('2d')
-    const loop = createLoop({ 
-        duration:5, 
-        framesPerSecond:30,
-        gif:true,
-        canvas })
+    const loop = createLoop({
+        duration: 5,
+        framesPerSecond: 30,
+        gif: true,
+        canvas
+    })
 
-    onAnimationFrame()
-
-    function onAnimationFrame() {
-        loop.preRender()
-        
-        //use this to match the canvas render speed to the rendered GIF speed
-        if (loop.elapsedDeltaTime < loop.frameDeltaTime)
-            render()
-        requestAnimationFrame(onAnimationFrame)
-    }
+    loop.start(render)
 
     function render() {
-        const hw = canvas.width/2
-        const hh = canvas.height/2
+        const hw = canvas.width / 2
+        const hh = canvas.height / 2
         const grd = ctx.createRadialGradient(hw, hh, 0, hw, hh, hh)
-        //use loop.progress to match the hue to the progress through the loop
         grd.addColorStop(0, `hsl(${loop.progress * 360},100%,50%)`)
         grd.addColorStop(1, `white`)
         ctx.fillStyle = grd
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         //post render must be called to add GIF frames
-        loop.postRender()
     }
 })
 
@@ -71,15 +60,11 @@ window.addEventListener('load', _ => {
 
 ## Documentation
 
-A core goal of createLoop is to simplify making GIF animations. To enable the creation of frame-perfect GIF loops, this library works with the concept of 'loop frames' rather than delta time.
+A core goal of createLoop is to simplify making GIF animations. This library calls `requestAnimationFrame` internally and will render according to the set `framesPerSecond`. This will render the canvas at approximately the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
 
 Animations can be synced to the loop using the provided `progress` and `theta` properties.
 
-Additionally, it is reccomended to throttle animation rendering using `elapsedDeltaTime` and `frameDeltaTime` as per the method in the example above. This will render the canvas at approximately the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
-
 The GIF encoder [gif.js](https://github.com/jnordberg/gif.js) uses web workers to render the GIF asynchronously. By default, the GIF will be rendered alongside the sketch and can be downloaded by clicking on it.
-
-
 
 ### createLoop()
 
@@ -118,30 +103,31 @@ The loop instance contains several helpful functions and properties for creating
 
 #### Celebrity attributes
 
-| Name               | Description                                                                                                                                                                                                                 |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `progress`         | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                                                                                        |
-| `theta`            | progress around a circle with a a range of `0 to two pi`                                                                                                                                                                    |
-| `frameDeltaTime`   | miliseconds between frames                                                                                                                                                                                                  |
-| `elapsedDeltaTime` | time since last frame                                                                                                                                                                                                       |
-| `noiseFrequency()` | set the noise frequency, also described as `radius`. see [noise options](README.md#noise-options)                                                                                                                           |
-| `noiseSeed()`      | set the noise seed. Behind the scenes every time this called with a new seed value, a new instance of [simplex-noise](https://github.com/jwagner/simplex-noise.js) is created. see [noise options](README.md#noise-options) |
-| `noise()`          | returns a noise value between -1 and 1. This found by querying the position `loop.theta` with radius `noiseFrequency` on a circle in a 2D simplex noise field                                                               |
-| `noise1D(x)`       | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                                                                                                      |
-| `noise2D(x,y)`     | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                                                                                                     |
+| Name                    | Description                                                                                                                                                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `start(renderCallback)` | begin rendering the loop, and call `renderCallback` on each loop frame                                                                                                                                                      |
+| `progress`              | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                                                                                        |
+| `theta`                 | progress around a circle with a a range of `0 to TWO_PI`                                                                                                                                                                    |
+| `noise()`               | returns a noise value between -1 and 1. This found by querying the position `loop.theta` with radius `noiseFrequency` on a circle in a 2D simplex noise field                                                               |
+| `noise1D(x)`            | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                                                                                                      |
+| `noise2D(x,y)`          | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                                                                                                     |
+| `noiseSeed()`           | set the noise seed. Behind the scenes every time this called with a new seed value, a new instance of [simplex-noise](https://github.com/jwagner/simplex-noise.js) is created. see [noise options](README.md#noise-options) |
+| `noiseFrequency()`      | set the noise frequency, also described as `radius`. see [noise options](README.md#noise-options)                                                                                                                           |
 
 
 #### Additional attributes
 
 Less common but useful for some
 
-| Name              | Description                                                                               |
-| ----------------- | ----------------------------------------------------------------------------------------- |
-| `framesPerSecond` | number of frames in a second                                                              |
-| `framesPerLoop`   | number of frames in a loop, this is an integer value of `framesPerSecond * duration`      |
-| `elapsedFrames`   | frames elapsed since loop start. This will wrap back to 0 when it reaches `framesPerLoop` |
-| `elapsedLoops`    | loops elapsed                                                                             |
-| `lastFrameTime`   | time stamp of last frame                                                                  |
+| Name               | Description                                                                               |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| `frameDeltaTime`   | miliseconds between frames                                                                |
+| `elapsedDeltaTime` | time since last frame                                                                     |
+| `framesPerSecond`  | number of frames in a second                                                              |
+| `framesPerLoop`    | number of frames in a loop, this is an integer value of `framesPerSecond * duration`      |
+| `elapsedFrames`    | frames elapsed since loop start. This will wrap back to 0 when it reaches `framesPerLoop` |
+| `elapsedLoops`     | loops elapsed                                                                             |
+| `lastFrameTime`    | time stamp of last frame                                                                  |
 
 
 ### Dependencies / License
@@ -182,6 +168,9 @@ This library was developed using techniques described in The Coding Train Coding
  - [Noise GIF loops](https://youtu.be/c6K-wJQ77yQ)
  - [4D polar noise loops](https://youtu.be/3_0Ax95jIrk)
 
-### Developer notes
+### Patch Notes
 
-- not absolutely happy with `preRender()` and `postRender()` system. preRender is called every animationFrame and postRender is called every loopFrame. On the plus side it works seamslessy with p5.
+- 0.0.1 - 14/04/2019
+    - added `start()` method, calling `requestAnimationFrame` internally
+- 0.0.0 - 14/04/2019
+    - initial release
