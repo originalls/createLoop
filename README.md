@@ -60,8 +60,6 @@ window.addEventListener('load', _ => {
 
 ## Documentation
 
-A core goal of createLoop is to simplify making GIF animations. This library calls `requestAnimationFrame` internally and will render according to the set `framesPerSecond`. This will render the canvas at approximately the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
-
 Animations can be synced to the loop using the provided `progress` and `theta` properties.
 
 The GIF encoder [gif.js](https://github.com/jnordberg/gif.js) uses web workers to render the GIF asynchronously. By default, the GIF will be rendered alongside the sketch and can be downloaded by clicking on it.
@@ -70,19 +68,13 @@ The GIF encoder [gif.js](https://github.com/jnordberg/gif.js) uses web workers t
 
 This method in the global namespace will return a loop instance. It can receive servarl arguments:
 
-| Name              | Default     | Description                                                                                                                                |
-| ----------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `duration`        | `3`         | sets the duration in seconds of the loop.                                                                                                  |
-| `framesPerSecond` | `30`        | approximate fps of the loop                                                                                                                |
-| `noise`           | `undefined` | options to be passed to noise module. see [noise options](README.md#noise-options)                                                         |
-| `gif`             | `false`     | can accept `true` or `options` to be passed to GIF module. Will not create GIF if left undefined. see [gif options](README.md#gif-options) |
-
-#### noise options
-
-| Name        | Default         | Description                                                                                            |
-| ----------- | --------------- | ------------------------------------------------------------------------------------------------------ |
-| `frequency` | `1`             | The 'randomness' of the noise. Behind the scenes this sets the radius of a circle in a 2D noise field. |
-| `seed`      | `Math.random()` | The seed of the noise field                                                                            |
+| Name              | Default         | Description                                                                                                                                |
+| ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `duration`        | `3`             | sets the duration in seconds of the loop.                                                                                                  |
+| `framesPerSecond` | `30`            | approximate fps of the loop                                                                                                                |
+| `noiseRadius`     | `1`             | The 'randomness' of the noise over time. Behind the scenes this sets the radius of a circle in a 2D noise field.                           |
+| `noiseSeed`       | `Math.random()` | The seed of the noise field                                                                                                                |
+| `gif`             | `false`         | can accept `true` or `options` to be passed to GIF module. Will not create GIF if left undefined. See [gif options](README.md#gif-options) |
 
 #### gif options
 
@@ -102,19 +94,30 @@ This method in the global namespace will return a loop instance. It can receive 
 
 The loop instance contains several helpful functions and properties for creating awesome animation loops.
 
+### Animation Frame Loops
+
+The simplest way to work with this library is to call `start(callback)` where `callback` is the function in which all canvas rendering will occur (`ctx.fillRect() etc`). The library then calls `requestAnimationFrame` internally and will render according to the set `framesPerSecond`. This will render the canvas at approximately the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
+
+When working with frameworks like `a-frame` where the user has no control over `requestAnimationFrame()`, or if for some other reason the above method is unsuitable, see this [alternative method](customAnimationLoop)
+
 #### Celebrity attributes
 
-| Name                    | Description                                                                                                                                                                                                                 |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `start(renderCallback)` | begin rendering the loop, and call `renderCallback` on each loop frame                                                                                                                                                      |
-| `progress`              | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                                                                                        |
-| `theta`                 | progress around a circle with a a range of `0 to TWO_PI`                                                                                                                                                                    |
-| `noise()`               | returns a noise value between -1 and 1. This found by querying the position `loop.theta` with radius `noiseFrequency` on a circle in a 2D simplex noise field                                                               |
-| `noise1D(x)`            | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                                                                                                      |
-| `noise2D(x,y)`          | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                                                                                                     |
-| `noiseSeed()`           | set the noise seed. Behind the scenes every time this called with a new seed value, a new instance of [simplex-noise](https://github.com/jwagner/simplex-noise.js) is created. see [noise options](README.md#noise-options) |
-| `noiseFrequency()`      | set the noise frequency, also described as `radius`. see [noise options](README.md#noise-options)                                                                                                                           |
+| Name                    | Description                                                                                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `start(renderCallback)` | begin rendering the loop, and call `renderCallback` on each loop frame                                                                                       |
+| `progress`              | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                         |
+| `theta`                 | progress around a circle with a a range of `0 to TWO_PI`                                                                                                     |
+| `noise(options)`        | returns a noise value between -1 and 1 from position `theta` with `radius` on a circle in a noise field. See [gif options](README.md#noise-options)          |
+| `noise1D(x,options)`    | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                                       |
+| `noise2D(x,y,options)`  | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                                      |
+| `noiseSeed()`           | set the noise seed. Every time this called with a new seed value, a new instance of [simplex-noise](https://github.com/jwagner/simplex-noise.js) is created. |
+| `noiseRadius()`         | set the default noise radius                                                                                                                                 |
+#### noise options
 
+| Name     | Default      | Description                                                                                                     |
+| -------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
+| `theta`  | `loop.theta` | By defalt is elapsed loop progress around a circle                                                              |
+| `radius` | `1`          | By default this value is `noiseRadius`, an option in `createLoop`, but can be overridden in the noise function. |
 
 #### Additional attributes
 
@@ -171,6 +174,9 @@ This library was developed using techniques described in The Coding Train Coding
 
 ### Patch Notes
 
+- 0.0.5 - 15/04/2019
+    - added `noiseRadius` and `noiseSeed` to `createLoop` options
+    - added option to override `radius` and `theta` in `noise()` functions
 - 0.0.3 - 14/04/2019
     - added `fileName` to gif options
 - 0.0.1 - 14/04/2019

@@ -3,39 +3,47 @@ module.exports = noiseLoop
 
 
 function noiseLoop({
-    frequency = 1,
-    seed = Math.random(),
+    frequency = undefined,//depreceated
+    seed = undefined,//deprecated
+    noiseRadius = 1,
+    noiseSeed = Math.random(),
     loop
 }) {
 
     const instances = []
     let currentInstance
-    noiseSeed(seed)
+    if (seed === undefined)//to deprecate
+        setNoiseSeed(noiseSeed)
+    else//to deprecate
+        setNoiseSeed(seed)//to deprecate
+    if (frequency !== undefined)
+        noiseRadius = frequency
 
     Object.assign(loop, {
-        noiseFrequency: (val) => frequency = val,
+        noiseFrequency: (val) => noiseRadius = val,//deprecate
         noise,
         noise1D,
         noise2D,
-        noiseSeed
+        noiseSeed: setNoiseSeed,
+        noiseRadius: (val) => noiseRadius = val
     })
 
-    function noise() {
-        const cart = polarToCartesian(loop.theta, frequency)
+    function noise({ theta = loop.theta, radius = noiseRadius } = {}) {
+        const cart = polarToCartesian(theta, radius)
         return currentInstance.simplex.noise2D(cart.x, cart.y)
     }
 
-    function noise1D(x) {
-        const cart = polarToCartesian(loop.theta, frequency)
+    function noise1D(x, { theta = loop.theta, radius = noiseRadius } = {}) {
+        const cart = polarToCartesian(theta, radius)
         return currentInstance.simplex.noise3D(cart.x, cart.y, x)
     }
 
-    function noise2D(x, y) {
-        const cart = polarToCartesian(loop.theta, frequency)
+    function noise2D(x, y, { theta = loop.theta, radius = noiseRadius } = {}) {
+        const cart = polarToCartesian(theta, radius)
         return currentInstance.simplex.noise4D(cart.x, cart.y, x, y)
     }
 
-    function noiseSeed(newSeed) {
+    function setNoiseSeed(newSeed) {
         currentInstance = instances.find(i => i.seed === newSeed)
         if (currentInstance === undefined) {
             currentInstance = {

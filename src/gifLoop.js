@@ -6,9 +6,9 @@
 const GIF = require('gif.js');
 const workerScript = require('./gifWorkerScript');
 
-module.exports = createGIF
+module.exports = gifLoop
 
-function createGIF({
+function gifLoop({
     render = true,
     open = false,
     download = false,
@@ -25,7 +25,7 @@ function createGIF({
     }
 
     const gifjs = new GIF(Object.assign({
-        workerScript
+        workerScript,
     }, options));
 
     let isFinished = false
