@@ -13,8 +13,18 @@
     "type": "git",
     "url": "git+https://github.com/piratesjustar/createLoop.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "createLoop",
+    "create",
+    "loop",
+    "animation",
+    "gif",
+    "noiseloop",
+    "noise",
+    "perlin",
+    "simplex"
+  ],
+  "author": "Peter Hayman",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/piratesjustar/createLoop/issues"

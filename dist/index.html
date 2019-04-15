@@ -21,14 +21,22 @@
             const canvas = document.createElement('canvas')
             document.body.appendChild(canvas)
             const ctx = canvas.getContext('2d')
-            const loop = createLoop({
+
+            const loopOptions =
+            {
                 duration: 5,
-                framesPerSecond: 5,
-                gif: true,
+                framesPerSecond: 10,
+                gif: { options: { repeat: -1 } },
                 canvas
-            })
+            }
+            const opt2 = Object.assign({}, loopOptions)
+
+
+            const loop = createLoop(opt2)
 
             loop.start(render)
+            const xx = Math.random()
+            const yy = Math.random()
 
             function render() {
                 const hw = canvas.width / 2

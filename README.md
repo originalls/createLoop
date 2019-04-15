@@ -177,3 +177,9 @@ This library was developed using techniques described in The Coding Train Coding
     - added `start()` method, calling `requestAnimationFrame` internally
 - 0.0.0 - 14/04/2019
     - initial release
+
+
+### TODO
+
+- set animation timer to a fixed time, not delta times. this will match GIF and canvas animations more closely
+- use gif.js.optimized
