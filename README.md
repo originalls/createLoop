@@ -2,7 +2,7 @@
 
 createLoop provides a simple and structured library for creating animation loops in the browser. 
 
-**Ye be warned** This is a baby library and has a lot of growing up to do. Breaking changes ahoy.
+**Ye be warned** This is a baby library and has a lot of growing up to do. Bugs and breaking changes ahoy. Contributions very welcome.
 
 For p5 implementation see **p5.createLoop** at [npm](https://www.npmjs.com/package/p5.createloop) or [gitHub](https://github.com/piratesjustar/p5.createLoop)
 
