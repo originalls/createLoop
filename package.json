@@ -1,6 +1,6 @@
 {
   "name": "createloop",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "createLoop provides a simple and structured library for creating animation loops in the browser.",
   "main": "src/index.js",
   "scripts": {
