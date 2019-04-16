@@ -150,6 +150,9 @@ Less common but useful for some.
 | `elapsedLoops`       | loops elapsed                                                                             |
 | `lastFrameTime`      | time stamp of last frame                                                                  |
 
+### Contributions
+
+Climb aboard! Make an issue or pull request on the [gitHub page](https://github.com/piratesjustar/createLoop)
 
 ### Dependencies / License
 

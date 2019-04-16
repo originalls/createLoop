@@ -2,7 +2,7 @@
 # **/images
 # **/images_compressed
 **/examples
-# **/docs
+**/docs
 **/scripts
 *.ps1
 dist/index.html
