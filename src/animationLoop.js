@@ -1,5 +1,6 @@
 const event = require('./event');
 
+"use strict"
 module.exports = animationLoop
 
 //internal script
@@ -30,6 +31,7 @@ function animationLoop({
         // get duration() { return duration },
         get frameDeltaTime() { return frameDeltaTime },
         elapsedFrames: -1,
+        elapsedFramesTotal: -1,
         elapsedLoops: -1,
         progress: undefined,
         theta: undefined
@@ -37,17 +39,17 @@ function animationLoop({
 
 
     function start(renderCallback) {
-        let lt = 0
+        let startTime = Date.now()
         onAnimationFrame()
         function onAnimationFrame() {
-            let dt = Date.now() - lt
-            if (dt >= loop.frameDeltaTime)
+            let nextFrameTime = loop.elapsedFramesTotal * loop.frameDeltaTime
+            let dt = Date.now() - startTime
+            if (dt >= nextFrameTime)
                 onLoopFrame()
             requestAnimationFrame(onAnimationFrame)
         }
 
         function onLoopFrame() {
-            lt = Date.now()
             onPreRender.invoke()
             renderCallback()
             onPostRender.invoke()
@@ -56,6 +58,7 @@ function animationLoop({
 
     function updateLoopInfo() {
         loop.elapsedFrames++
+        loop.elapsedFramesTotal++
         if (loop.elapsedFrames % loop.framesPerLoop === 0) {
             loop.elapsedFrames = 0
             loop.elapsedLoops++

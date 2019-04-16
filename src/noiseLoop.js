@@ -1,58 +1,58 @@
+"use strict"
 const SimplexNoise = require('simplex-noise');
 module.exports = noiseLoop
 
+const SEED_MULTIPLIER = 999999
 
-function noiseLoop({
-    frequency = undefined,//depreceated
-    seed = undefined,//deprecated
-    noiseRadius = 1,
-    noiseSeed = Math.random(),
-    loop
-}) {
+function noiseLoop(loop, options = {}) {
+    options = Object.assign({
+        frequency: undefined,//depreceated
+        seed: Math.random() * SEED_MULTIPLIER,
+        radius: 1,
+    }, options)
 
-    const instances = []
-    let currentInstance
-    if (seed === undefined)//to deprecate
-        setNoiseSeed(noiseSeed)
-    else//to deprecate
-        setNoiseSeed(seed)//to deprecate
-    if (frequency !== undefined)
-        noiseRadius = frequency
+    // const instances = []
+    // let currentInstance
+    const simplexNoise = new SimplexNoise(0)
+
+    // setNoiseSeed(seed)//to deprecate
+    if (options.frequency !== undefined)
+        options.radius = options.frequency
 
     Object.assign(loop, {
-        noiseFrequency: (val) => noiseRadius = val,//deprecate
+        noiseFrequency: val => options.radius = val,//deprecate
         noise,
         noise1D,
         noise2D,
-        noiseSeed: setNoiseSeed,
-        noiseRadius: (val) => noiseRadius = val
+        noiseSeed: val => options.seed = val,
+        noiseRadius: val => options.radius = val
     })
 
-    function noise({ theta = loop.theta, radius = noiseRadius } = {}) {
+    function noise({ theta = loop.theta, radius = options.radius, seed = options.seed } = {}) {
         const cart = polarToCartesian(theta, radius)
-        return currentInstance.simplex.noise2D(cart.x, cart.y)
+        return simplexNoise.noise2D(seed + cart.x, seed + cart.y)
     }
 
-    function noise1D(x, { theta = loop.theta, radius = noiseRadius } = {}) {
+    function noise1D(x, { theta = loop.theta, radius = options.radius, seed = options.seed } = {}) {
         const cart = polarToCartesian(theta, radius)
-        return currentInstance.simplex.noise3D(cart.x, cart.y, x)
+        return simplexNoise.noise3D(seed + cart.x, seed + cart.y, seed + x)
     }
 
-    function noise2D(x, y, { theta = loop.theta, radius = noiseRadius } = {}) {
+    function noise2D(x, y, { theta = loop.theta, radius = options.radius, seed = options.seed } = {}) {
         const cart = polarToCartesian(theta, radius)
-        return currentInstance.simplex.noise4D(cart.x, cart.y, x, y)
+        return simplexNoise.noise4D(seed + cart.x, seed + cart.y, seed + x, seed + y)
     }
 
-    function setNoiseSeed(newSeed) {
-        currentInstance = instances.find(i => i.seed === newSeed)
-        if (currentInstance === undefined) {
-            currentInstance = {
-                seed: newSeed,
-                simplex: new SimplexNoise(newSeed)
-            }
-            instances.push(currentInstance)
-        }
-    }
+    // function setNoiseSeed(newSeed) {
+    //     currentInstance = instances.find(i => i.seed === newSeed)
+    //     if (currentInstance === undefined) {
+    //         currentInstance = {
+    //             seed: newSeed,
+    //             simplex: new SimplexNoise(newSeed)
+    //         }
+    //         instances.push(currentInstance)
+    //     }
+    // }
 }
 
 function polarToCartesian(theta, radius) {

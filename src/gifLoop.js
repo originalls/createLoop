@@ -8,17 +8,17 @@ const workerScript = require('./gifWorkerScript');
 
 module.exports = gifLoop
 
-function gifLoop({
+function gifLoop(loop, {
     render = true,
     open = false,
     download = false,
     startLoop = 0,
     endLoop = 1,
     fileName = "image.gif",
-    options = {},
     canvas = document.getElementsByTagName('canvas')[0],
-    loop
-}) {
+    options = {},
+} = {}) {
+
     if (canvas === undefined) {
         console.error('GIF module: no canvas found');
         return
@@ -77,14 +77,20 @@ function gifLoop({
                     frame delay: ${loop.frameDeltaTime.toFixed(1)} ms
                     `);
         const imgUrl = URL.createObjectURL(blob)
-        if (render)
-            renderImage(imgUrl, fileName)
+        if (render) {
+            loop.onLoop.addListener(renderOnLoop)
+            function renderOnLoop() {
+                loop.onLoop.removeListener(renderOnLoop)
+                renderImage(imgUrl, fileName)
+            }
+        }
         if (open)
             window.open(imgUrl)
         if (download)
             downloadImage(imgUrl, fileName)
         // URL.revokeObjectURL(imgUrl)
     }
+
 }
 
 

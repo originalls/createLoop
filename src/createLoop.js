@@ -7,23 +7,40 @@ module.exports = createLoop
 function createLoop({
     duration = 3,
     framesPerSecond = 30,
-    noise = {},//deprecated
     gif = false,
-    noiseRadius = 1,
-    noiseSeed = Math.random()
+    gifRender = undefined,
+    gifOpen = undefined,
+    gifDownload = undefined,
+    gifStartLoop = undefined,
+    gifEndLoop = undefined,
+    gifFileName = undefined,
+    noise = {},
+    noiseRadius = undefined,
+    noiseSeed = undefined,
+    canvas = undefined,
 } = {}) {
+
+    // console.log(canvas);
 
     const loop = {}
 
     animationLoop({ framesPerSecond, duration, loop });
 
-    noiseLoop(Object.assign({ loop, noiseRadius, noiseSeed }, noise))
+
+    if (noiseRadius !== undefined) noise.radius = noiseRadius
+    if (noiseSeed !== undefined) noise.seed = noiseSeed
+    noiseLoop(loop, noise)
 
     if (gif !== false) {
-        if (gif === true)
-            gifLoop({ loop })
-        else
-            gifLoop(Object.assign({ loop }, gif))
+        gif = gif === true ? {} : gif
+        if (canvas !== undefined) gif.canvas = canvas
+        if (gifRender !== undefined) gif.render = gifRender
+        if (gifOpen !== undefined) gif.open = gifOpen
+        if (gifDownload !== undefined) gif.download = gifDownload
+        if (gifStartLoop !== undefined) gif.startLoop = gifStartLoop
+        if (gifEndLoop !== undefined) gif.endLoop = gifEndLoop
+        if (gifFileName !== undefined) gif.fileName = gifFileName
+        gifLoop(loop, gif)
     }
     return loop
 }

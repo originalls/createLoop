@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "prepublishOnly": "powershell ./prepublish.ps1",
-    "test": "cd ./examples && live-server",
+    "test": "cd ./dist && live-server",
     "start": "webpack-dev-server --open",
     "build": "powershell ./build.ps1"
   },

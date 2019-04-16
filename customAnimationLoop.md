@@ -8,24 +8,21 @@ If you need to be calling `requestAnimationFrame()` yourself or for some reason 
 
 let loop = createLoop({framesPerSecond:10})
 
-let lastLoopFrame = 0
-onAnimationFrame()
+function start() {
+    let startTime = Date.now()
+    onAnimationFrame()
+    function onAnimationFrame() {
+        //The code to run every animation frame
 
-function onAnimationFrame() {
-    let dt = Date.now() - lastLoopFrame
-    if (dt >= loop.frameDeltaTime)
-        onLoopFrame()
-    requestAnimationFrame(onAnimationFrame)
-}
-
-//onLoopFrame will be called at 10fps according to framesPerSecond
-function onLoopFrame() {
-    lastLoopFrame = Date.now()
-    loop.onPreRender.invoke()
-
-    //do your rendering in here i.e
-    // ctx.fillRect(0,0,30,30)
-
-    loop.onPostRender.invoke()
+        let nextFrameTime = loop.elapsedFramesTotal * loop.frameDeltaTime
+        let dt = Date.now() - startTime
+        if (dt >= nextFrameTime){ 
+            loop.onPreRender.invoke()
+            //do your rendering in here i.e
+            ctx.fillRect(0,0,30,30)
+            loop.onPostRender.invoke()
+        }
+        requestAnimationFrame(onAnimationFrame)
+    }
 }
 ```
