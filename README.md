@@ -116,7 +116,7 @@ createLoop({
 
 The simplest way to work with this library is to call `start(callback)` as per the above example. The library then calls `requestAnimationFrame` internally and will render according to the set `framesPerSecond`. This will render the canvas at the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
 
-When working with frameworks like `a-frame` where the user has no control over `requestAnimationFrame()`, or if for some other reason the above method is unsuitable, see this [alternative method](./docs/customAnimationLoop)
+When working with frameworks like `a-frame` where the user has no control over `requestAnimationFrame()`, or if for some other reason the above method is unsuitable, see this [alternative method](./docs/customAnimationLoop.md)
 
 ### Loop instance
 
