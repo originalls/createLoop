@@ -116,7 +116,7 @@ createLoop({
 
 The simplest way to work with this library is to call `start(callback)` as per the above example. The library then calls `requestAnimationFrame` internally and will render according to the set `framesPerSecond`. This will render the canvas at the same frame rate as the GIF animation, giving an easy sense of what the GIF will look like.
 
-When working with frameworks like `a-frame` where the user has no control over `requestAnimationFrame()`, or if for some other reason the above method is unsuitable, see this [alternative method](customAnimationLoop)
+When working with frameworks like `a-frame` where the user has no control over `requestAnimationFrame()`, or if for some other reason the above method is unsuitable, see this [alternative method](./docs/customAnimationLoop)
 
 ### Loop instance
 
@@ -176,12 +176,12 @@ The following libraries are included in `createLoop`.
   - Creator:    Johan Nordberg
   - Version:    gif.js 0.2.0
   - Link:       https://github.com/jnordberg/gif.js
-  - License:    Copyright 2013 Johan Nordberg [MIT License](./MIT-license.md)
+  - License:    Copyright 2013 Johan Nordberg [MIT License](./docs/MIT-license.md)
 - Simplex Noise
   - Creator:    Jonas Wagner 
   - Version:    simplex-noise 2.4.0 
   - Link:       https://github.com/jwagner/simplex-noise.js
-  - License:    Copyright 2015 Jonas Wagner [MIT License](./MIT-license.md)
+  - License:    Copyright 2015 Jonas Wagner [MIT License](./docs/MIT-license.md)
 
 This library was developed using techniques described in The Coding Train Coding challenges:
  - [GIF loops](https://youtu.be/nBKwCCtWlUg)
