@@ -1,7 +1,7 @@
 echo "publishing createLoop"
-npm run publish
+npm publish
 echo "updating and publishing p5.createLoop"
 cd ../p5.createLoop
 npm run update-dependencies
-npm run publish
+npm publish
 cd ../createLoop
