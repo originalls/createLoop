@@ -1,3 +1,5 @@
+Write-Output "building"
+npm run build
 Write-Output "updating git"
 git.exe add .
 git.exe commit -m 'patch'

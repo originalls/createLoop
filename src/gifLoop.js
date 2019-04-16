@@ -43,9 +43,10 @@ function gifLoop(loop, {
     //some reason this is getting called twice
     gifjs.on('finished', onFinishedRendering)
 
+    const gifTotalFrameCount = loop.framesPerLoop * (endLoop - startLoop)
     //FUNCTIONS ---------------------------------------------------------------------
     function startRecording() {
-        console.log(`creating GIF with ${loop.framesPerLoop * (endLoop - startLoop)} frames`);
+        console.log(`creating GIF with ${gifTotalFrameCount} frames`);
         loop.onPostRender.addListener(addFrame)
     }
 
@@ -73,7 +74,7 @@ function gifLoop(loop, {
             `finished rendering GIF
                     render time: ${(renderTime / 1000).toFixed(1)} seconds
                     approx size: ${(blob.size / 1000).toFixed(0)} kb
-                    frame count: ${loop.framesPerLoop}
+                    frame count: ${gifTotalFrameCount}
                     frame delay: ${loop.frameDeltaTime.toFixed(1)} ms
                     `);
         const imgUrl = URL.createObjectURL(blob)

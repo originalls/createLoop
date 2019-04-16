@@ -2,6 +2,8 @@
 # **/images
 # **/images_compressed
 **/examples
+**/docs
+**/scripts
 *.ps1
 dist/index.html
 dist/main.js

@@ -4,10 +4,11 @@
   "description": "createLoop provides a simple and structured library for creating animation loops in the browser.",
   "main": "src/index.js",
   "scripts": {
-    "prepublishOnly": "powershell ./prepublish.ps1",
+    "prepublishOnly": "powershell ./scripts/prepublish.ps1",
     "test": "cd ./dist && live-server",
     "start": "webpack-dev-server --open",
-    "build": "powershell ./build.ps1"
+    "build": "powershell ./scripts/build.ps1",
+    "publish-all": "powershell ./scripts/publish-all.ps1"
   },
   "repository": {
     "type": "git",

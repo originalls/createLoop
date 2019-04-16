@@ -14,6 +14,7 @@ function createLoop({
     gifStartLoop = undefined,
     gifEndLoop = undefined,
     gifFileName = undefined,
+    gifOptions = undefined,
     noise = {},
     noiseRadius = undefined,
     noiseSeed = undefined,
@@ -38,6 +39,7 @@ function createLoop({
         if (gifOpen !== undefined) gif.open = gifOpen
         if (gifDownload !== undefined) gif.download = gifDownload
         if (gifStartLoop !== undefined) gif.startLoop = gifStartLoop
+        if (gifOptions !== undefined) gif.options = gifOptions
         if (gifEndLoop !== undefined) gif.endLoop = gifEndLoop
         if (gifFileName !== undefined) gif.fileName = gifFileName
         gifLoop(loop, gif)

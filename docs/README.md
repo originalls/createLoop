@@ -135,6 +135,7 @@ The loop instance contains several helpful functions and properties for creating
 | `noise2D(x,y,options)`  | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                               |
 | `noiseSeed()`           | set the noise seed                                                                                                                                    |
 | `noiseRadius()`         | set the default noise radius                                                                                                                          |
+
 #### Additional attributes
 
 Less common but useful for some.
@@ -190,6 +191,9 @@ This library was developed using techniques described in The Coding Train Coding
 
 ### Patch Notes
 
+- 0.0.8 - 16/04/2019
+  - added gifOptions to camelCase arguments
+  - fixed bug where console would log incorrect GIF frame count if rendering more than one loop
 - 0.0.7 - 16/04/2019
   - rewrote `start()` function to work with `start dt` rather than `frame dt` to keep in sync with GIF
   - Synchronized GIF image to render on loop
