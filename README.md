@@ -125,24 +125,23 @@ The loop instance contains several helpful functions and properties for creating
 
 #### Celebrity attributes
 
-| Name                    | Description                                                                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `start(renderCallback)` | begin rendering the loop, and call `renderCallback` on each loop frame                                                                              |
-| `progress`              | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                |
-| `theta`                 | progress around a circle with a a range of `0 to TWO_PI`                                                                                            |
-| `noise(options)`        | returns a noise value between -1 and 1 from position `theta` with `radius` on a circle in a noise field. See [gif options](README.md#noise-options) |
-| `noise1D(x,options)`    | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                              |
-| `noise2D(x,y,options)`  | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                             |
-| `noiseSeed()`           | set the noise seed                                                                                                                                  |
-| `noiseRadius()`         | set the default noise radius                                                                                                                        |
+| Name                    | Description                                                                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `start(renderCallback)` | begin rendering the loop, and call `renderCallback` on each loop frame                                                                                |
+| `progress`              | stage of completion of the loop. this is `elapsedFrames / framesPerLoop` and has a range of `0 to 1`                                                  |
+| `theta`                 | progress around a circle with a a range of `0 to TWO_PI`                                                                                              |
+| `noise(options)`        | returns a noise value between -1 and 1 from position `theta` with `radius` on a circle in a noise field. See [noise options](README.md#noise-options) |
+| `noise1D(x,options)`    | Same as above also accepting an `x` value, providing a 1D line of noise for each frame                                                                |
+| `noise2D(x,y,options)`  | Same as above also accepting a `y` value, providing a 2D plane of noise                                                                               |
+| `noiseSeed()`           | set the noise seed                                                                                                                                    |
+| `noiseRadius()`         | set the default noise radius                                                                                                                          |
 #### Additional attributes
 
-Less common but useful for some
+Less common but useful for some.
 
 | Name                 | Description                                                                               |
 | -------------------- | ----------------------------------------------------------------------------------------- |
-| `frameDeltaTime`     | miliseconds between frames                                                                |
-| `elapsedDeltaTime`   | time since last frame                                                                     |
+| `frameDeltaTime`     | miliseconds between frames. This is the delay encoded in each GIF frame.                  |
 | `framesPerSecond`    | number of frames in a second                                                              |
 | `framesPerLoop`      | number of frames in a loop, this is an integer value of `framesPerSecond * duration`      |
 | `elapsedFrames`      | frames elapsed since loop start. This will wrap back to 0 when it reaches `framesPerLoop` |
