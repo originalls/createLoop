@@ -15,6 +15,7 @@ function gifLoop(loop, {
     startLoop = 0,
     endLoop = 1,
     fileName = "image.gif",
+    onFinishRender = undefined,	
     canvas = document.getElementsByTagName('canvas')[0],
     options = {},
 } = {}) {
@@ -85,6 +86,8 @@ function gifLoop(loop, {
                 renderImage(imgUrl, fileName)
             }
         }
+        if (onFinishRender && typeof onFinishRender === "function") 
+            onFinishRender(blob)
         if (open)
             window.open(imgUrl)
         if (download)

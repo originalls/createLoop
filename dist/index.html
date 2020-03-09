@@ -28,7 +28,10 @@
                 framesPerSecond: 10,
                 gif: true,
                 noiseSeed: 0,
-                canvas
+                canvas,
+                gifOnFinishRender: (blob) => console.log('callback on finish rendering', {
+                    blob
+                })
             }
 
 
