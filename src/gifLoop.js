@@ -1,6 +1,6 @@
 
 //This module does not add anything to the loop instance
-// it does attach itsself to loop events onLoop and onPostRender
+// it does attach itself to loop events onLoop and onPostRender
 
 
 const GIF = require('gif.js');
